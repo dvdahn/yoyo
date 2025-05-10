@@ -86,3 +86,13 @@ const fadeIn = setInterval(() => {
         clearInterval(fadeIn); // Stop when it reaches 50%
     }
 }, 200); // Increase every 200ms
+
+const audio = document.getElementById("bg-music");
+
+audio.addEventListener("canplaythrough", () => {
+    console.log("Audio is ready to play!");
+});
+
+audio.addEventListener("error", (e) => {
+    console.error("Error loading audio:", e);
+});
