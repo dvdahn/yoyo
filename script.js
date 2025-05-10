@@ -30,3 +30,23 @@ function createConfetti() {
         confettiContainer.remove();
     }, 3000);
 }
+
+function spawnHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  const size = Math.random() * 10 + 10; // 10px to 20px
+  heart.style.width = size + "px";
+  heart.style.height = size + "px";
+  heart.style.left = Math.random() * 100 + "vw";
+
+  const duration = Math.random() * 3 + 2; // 2s to 5s
+  heart.style.animationDuration = duration + "s";
+
+  document.getElementById("heart-container").appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, duration * 1000);
+}
+
+setInterval(spawnHeart, 300); // Every 300ms
