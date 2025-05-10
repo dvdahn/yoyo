@@ -44,6 +44,7 @@
             opacity: 0;
             display: none;
             position: relative;
+            transition: opacity 2s ease;
         }
         .thought-bubble {
             position: absolute;
@@ -259,7 +260,7 @@
                 // Stop creating hearts after 15 seconds
                 setTimeout(() => {
                     clearInterval(heartInterval);
-                }, 15000);
+                }, 600000);
             }
             
             let currentMessageIndex = 0;
@@ -322,7 +323,7 @@
                             message.style.opacity = '0';
                             setTimeout(() => {
                                 message.style.display = 'none';
-                            }, 500);
+                            }, 2000);
                         }
                         
                         currentMessageIndex++;
