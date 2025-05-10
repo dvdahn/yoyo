@@ -1,11 +1,12 @@
 body {
     font-family: 'Comic Sans MS', cursive;
-    background: #fce4ec; /* blue */
+    background: #fce4ec; /* pink */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    overflow: hidden; /* Prevent hearts and confetti from overflowing */
 }
 
 .container {
@@ -44,53 +45,59 @@ button {
     width: 10px;
     height: 10px;
     background: hsl(0, 100%, 70%);
-    animation: fall linear;
+    animation: fall 3s linear forwards; /* Updated duration */
 }
 
 @keyframes fall {
-    to {
-        transform: translateY(100vh);
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg); /* Adds rotation as it falls */
         opacity: 0;
     }
 }
 
 .heart {
-  width: 20px;
-  height: 20px;
-  background: red;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  clip-path: polygon(
-    50% 0%,
-    61% 12%,
-    75% 25%,
-    88% 37%,
-    100% 50%,
-    88% 63%,
-    75% 75%,
-    61% 88%,
-    50% 100%,
-    39% 88%,
-    25% 75%,
-    12% 63%,
-    0% 50%,
-    12% 37%,
-    25% 25%,
-    39% 12%
-  );
-  animation: float 4s ease-in-out infinite;
-  opacity: 0.6;
+    width: 20px;
+    height: 20px;
+    background: red;
+    position: absolute;
+    transform: translateX(-50%);
+    clip-path: polygon(
+        50% 0%,
+        61% 12%,
+        75% 25%,
+        88% 37%,
+        100% 50%,
+        88% 63%,
+        75% 75%,
+        61% 88%,
+        50% 100%,
+        39% 88%,
+        25% 75%,
+        12% 63%,
+        0% 50%,
+        12% 37%,
+        25% 25%,
+        39% 12%
+    );
+    animation: float 4s ease-in-out infinite;
+    opacity: 0.6;
 }
 
 @keyframes float {
-  0% {
-    transform: translate(-50%, 0) scale(1);
-    opacity: 0.6;
-  }
-  100% {
-    transform: translate(-50%, -200px) scale(1.2);
-    opacity: 0;
-  }
+    0% {
+        transform: translate(-50%, 0) scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -150px) scale(1.2);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(-50%, -300px) scale(1.4);
+        opacity: 0;
+    }
 }
