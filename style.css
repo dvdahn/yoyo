@@ -1,103 +1,88 @@
 body {
-    font-family: 'Comic Sans MS', cursive;
-    background: #fce4ec; /* pink */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden; /* Prevent hearts and confetti from overflowing */
+  font-family: 'Comic Sans MS', cursive;
+  background: #fce4ec;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
-    text-align: center;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+#playBtn {
+  font-size: 2em;
+  padding: 20px 40px;
+  background-color: #81c784;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#playBtn:hover {
+  transform: scale(1.1);
+  background-color: #66bb6a;
 }
 
 h1 {
-    font-size: 2em;
-    color: #d81b60; /* pink */
-    margin-bottom: 40px;
+  font-size: 2.5em;
+  color: #d81b60;
+  margin-bottom: 20px;
 }
 
 button {
-    padding: 15px 25px;
-    font-size: 1.2em;
-    margin: 10px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s;
+  padding: 15px 25px;
+  font-size: 1.2em;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 #yesBtn {
-    background-color: #81c784; /* green */
-    color: white;
+  background-color: #81c784;
+  color: white;
 }
 
 #noBtn {
-    background-color: #e57373; /* red */
-    color: white;
-    position: relative;
+  background-color: #e57373;
+  color: white;
+  position: relative;
 }
 
-.confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background: hsl(0, 100%, 70%);
-    animation: fall 3s linear forwards; /* Updated duration */
+/* Bubble pop animation */
+.bubble {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #ff4081;
+  border-radius: 50%;
+  animation: pop 1s ease-out forwards;
+  pointer-events: none;
 }
 
-@keyframes fall {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(360deg); /* Adds rotation as it falls */
-        opacity: 0;
-    }
+@keyframes pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
 }
-
-.heart {
-    width: 20px;
-    height: 20px;
-    background: red;
-    position: absolute;
-    transform: translateX(-50%);
-    clip-path: polygon(
-        50% 0%,
-        61% 12%,
-        75% 25%,
-        88% 37%,
-        100% 50%,
-        88% 63%,
-        75% 75%,
-        61% 88%,
-        50% 100%,
-        39% 88%,
-        25% 75%,
-        12% 63%,
-        0% 50%,
-        12% 37%,
-        25% 25%,
-        39% 12%
-    );
-    animation: float 4s ease-in-out infinite;
-    opacity: 0.6;
-}
-
-@keyframes float {
-    0% {
-        transform: translate(-50%, 0) scale(1);
-        opacity: 0.6;
-    }
-    50% {
-        transform: translate(-50%, -150px) scale(1.2);
-        opacity: 0.6;
-    }
-    100% {
-        transform: translate(-50%, -300px) scale(1.4);
-        opacity: 0;
-    }
+#noBtn {
+  background-color: #e57373;
+  color: white;
+  position: absolute;
+  transition: top 0.3s, left 0.3s;
 }

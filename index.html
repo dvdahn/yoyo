@@ -1,43 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YOYO JIANG</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YOYO JIANG</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>YOYO JIANG</h1>
-            <div class="buttons">
-                <button id="yesBtn">Yes Daddy😛</button>
-                <button id="noBtn">oh HELLL NAWW 👴</button>
-            </div>
-            <div id="confetti"></div>
-        </header>
+  <div class="container">
+    <button id="playBtn">Play Me!</button>
 
-        <!-- Background Music -->
-    <button id="playBtn">Play Music</button>
-<audio id="bg-music" loop>
-    <source src="nostalgia.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
-
-<script>
-    const playBtn = document.getElementById("playBtn");
-    const audio = document.getElementById("bg-music");
-
-    playBtn.addEventListener("click", () => {
-        audio.play();
-    });
-</script>
-
-        <!-- Heart Container -->
-        <div id="heart-container"></div>
+    <div id="main-content" class="hidden">
+      <h1>YOYO JIANG</h1>
+      <p id="newText">Will you be my girlfriend? 😍</p>
+      <div class="buttons">
+        <button id="yesBtn">Yes Daddy 😛</button>
+        <button id="noBtn">Oh HELLL NAWW 👴</button>
+      </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Hearts/Pop Animation Container -->
+    <div id="bubble-container"></div>
+
+    <!-- Background Music -->
+    <audio id="bg-music" loop>
+      <source src="nostalgia.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
