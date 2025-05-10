@@ -35,7 +35,7 @@
 
         .message-container {
             position: relative;
-            height: 200px;
+            height: 200px; /* Fixed height to accommodate messages */
             margin: 2rem 0;
         }
 
@@ -49,7 +49,7 @@
             animation: float 3s ease-in-out infinite;
             opacity: 0;
             display: none;
-            position: relative;
+            position: absolute;
             transition: opacity 2s ease;
         }
         .thought-bubble {
@@ -81,8 +81,7 @@
         }
 
         .final-question {
-            font-size: 2.5rem;
-            margin: 2rem 0;
+             font-size: 2.5rem;
             padding: 1.5rem;
             background-color: white;
             border-radius: 20px;
@@ -92,6 +91,10 @@
             display: none;
             font-family: 'Pacifico';
             color: #ff95ff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
         }
 
         @keyframes float {
@@ -322,27 +325,28 @@
                     // Add click event to show next message
                     message.addEventListener('click', function handler() {
                         message.removeEventListener('click', handler);
+                        
                         // Hide the "Click me" bubble if it's the first message
                         if (currentMessageIndex === 0) {
                             clickMe.style.opacity = '0';
-
-                        //Fade out the first message
-                            message.style.opacity = '0';
-                        
-                        currentMessageIndex++;
-                        message.removeEventListener('click', handler);
-                        
-                        // If we've shown all messages, show the final question
-                        if (currentMessageIndex < messages.length) {
-                            // Hide all previous messages
-                            const nextMessage = messages[currentMessageIndex];
-                            nextMessage.style.display = 'block';
                             
-                            setTimeout(() => {
-                                nextMessage.style.opacity = '1';
-                            }, 1000);
-                        }
-                         } else {
+                            // Start fading out the first message
+                            message.style.opacity = '0';
+                            
+                            // Prepare the next message while the first is fading
+                            currentMessageIndex++;
+                            
+                            if (currentMessageIndex < messages.length) {
+                                // Set up the next message to fade in
+                                const nextMessage = messages[currentMessageIndex];
+                                nextMessage.style.display = 'block';
+                                
+                                // Start fading in the next message after a short delay
+                                setTimeout(() => {
+                                    nextMessage.style.opacity = '1';
+                                }, 1000); // Start fade-in halfway through the fade-out
+                            }
+                        } else {
                             // For messages after the first one
                             currentMessageIndex++;
                             
@@ -375,7 +379,7 @@
                         }
                     });
                 }
-            
+            }
             // Make the No button move away when hovered
             noButton.addEventListener('mouseover', function() {
                 // Calculate a new position within the viewport
