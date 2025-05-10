@@ -1,34 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>YOYO JIANG</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Message</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            background-color: #ffb6c1; /* Pink background */
+            font-family: 'Comic Neue', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .message {
+            font-size: 1.8rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: float 3s ease-in-out infinite;
+            opacity: 0;
+            display: none;
+            position: relative;
+        }
+
+        .thought-bubble {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: none;
+        }
+
+        .thought-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #fff;
+        }
+
+        .final-question {
+            font-size: 2.5rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            animation: float 3s ease-in-out infinite;
+            opacity: 0;
+            display: none;
+            font-family: 'Pacifico', cursive;
+            color: #ff1493;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .play-button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.5rem;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-family: 'Comic Neue', cursive;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .play-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        .choice-buttons {
+            display: none;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .yes-button, .no-button {
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Comic Neue', cursive;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .yes-button {
+            background-color: #ff69b4;
+            color: white;
+        }
+
+        .yes-button:hover {
+            background-color: #ff1493;
+            transform: scale(1.05);
+        }
+
+        .no-button {
+            background-color: #ff6347;
+            color: white;
+            position: relative;
+        }
+
+        .final-message {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5rem;
+            color: #ff1493;
+            margin-top: 30px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <button id="playBtn">Play Me!</button>
-
-    <div id="main-content" class="hidden">
-      <h1>YOYO JIANG</h1>
-      <p id="newText">Will you be my girlfriend? 😍</p>
-      <div class="buttons">
-        <button id="yesBtn">Yes Daddy 😛</button>
-        <button id="noBtn">Oh HELLL NAWW 👴</button>
-      </div>
+    <div class="container">
+        <button class="play-button" id="playButton">Play Me!</button>
+        
+        <h1 id="mainHeader">YOYO JIANG</h1>
+        
+        <div class="message" id="message1">
+            Hey there! I have something to tell you...
+            <div class="thought-bubble" id="clickMe">Click me!</div>
+        </div>
+        <div class="message" id="message2">You're really special to me...</div>
+        <div class="message" id="message3">I've been thinking about us a lot lately...</div>
+        <div class="message" id="message4">And I realized something important...</div>
+        <div class="message" id="message5">I want to take our relationship to the next level...</div>
+        
+        <div class="final-question" id="finalQuestion">Will you be my girlfriend?</div>
+        
+        <div class="choice-buttons" id="choiceButtons">
+            <button class="yes-button" id="yesButton">yes daddy</button>
+            <button class="no-button" id="noButton">oh hellll naww</button>
+        </div>
+        
+        <div class="final-message" id="loveMessage">wahoo i love youu</div>
     </div>
 
-    <!-- Hearts/Pop Animation Container -->
-    <div id="bubble-container"></div>
-
-    <!-- Background Music -->
-    <audio id="bg-music" loop>
-      <source src="nostalgia.mp3" type="audio/mpeg" />
-      Your browser does not support the audio element.
-    </audio>
-  </div>
-
-  <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const playButton = document.getElementById('playButton');
+            const mainHeader = document.getElementById('mainHeader');
+            const messages = [
+                document.getElementById('message1'),
+                document.getElementById('message2'),
+                document.getElementById('message3'),
+                document.getElementById('message4'),
+                document.getElementById('message5')
+            ];
+            const clickMe = document.getElementById('clickMe');
+            const finalQuestion = document.getElementById('finalQuestion');
+            const choiceButtons = document.getElementById('choiceButtons');
+            const noButton = document.getElementById('noButton');
+            const yesButton = document.getElementById('yesButton');
+            const loveMessage = document.getElementById('loveMessage');
+            
+            let currentMessageIndex = 0;
+            
+            // Start the sequence when Play Me button is clicked
+            playButton.addEventListener('click', function() {
+                playButton.style.display = 'none';
+                mainHeader.style.opacity = '1';
+                
+                // Show the first message after a short delay
+                setTimeout(showNextMessage, 1000);
+            });
+            
+            // Function to show messages in sequence
+            function showNextMessage() {
+                if (currentMessageIndex < messages.length) {
+                    const message = messages[currentMessageIndex];
+                    message.style.display = 'block';
+                    
+                    // Fade in the message
+                    setTimeout(() => {
+                        message.style.opacity = '1';
+                        
+                        // Show the "Click me" bubble for the first message
+                        if (currentMessageIndex === 0) {
+                            setTimeout(() => {
+                                clickMe.style.display = 'block';
+                                clickMe.style.opacity = '1';
+                            }, 1000);
+                        }
+                    }, 100);
+                    
+                    // Add click event to show next message
+                    message.addEventListener('click', function handler() {
+                        // Hide the "Click me" bubble if it's the first message
+                        if (currentMessageIndex === 0) {
+                            clickMe.style.opacity = '0';
+                        }
+                        
+                        currentMessageIndex++;
+                        message.removeEventListener('click', handler);
+                        
+                        // If we've shown all messages, show the final question
+                        if (currentMessageIndex >= messages.length) {
+                            // Hide all previous messages
+                            messages.forEach(msg => {
+                                msg.style.display = 'none';
+                            });
+                            
+                            // Show the final question
+                            finalQuestion.style.display = 'block';
+                            setTimeout(() => {
+                                finalQuestion.style.opacity = '1';
+                                
+                                // Show the choice buttons
+                                setTimeout(() => {
+                                    choiceButtons.style.display = 'flex';
+                                }, 1000);
+                            }, 100);
+                        } else {
+                            showNextMessage();
+                        }
+                    });
+                }
+            }
+            
+            // Make the No button move away when hovered
+            noButton.addEventListener('mouseover', function() {
+                // Calculate a new position within the viewport
+                const maxX = window.innerWidth - noButton.offsetWidth;
+                const maxY = window.innerHeight - noButton.offsetHeight;
+                
+                const randomX = Math.floor(Math.random() * maxX);
+                const randomY = Math.floor(Math.random() * maxY);
+                
+                noButton.style.position = 'fixed';
+                noButton.style.left = randomX + 'px';
+                noButton.style.top = randomY + 'px';
+            });
+            
+            // Handle Yes button click
+            yesButton.addEventListener('click', function() {
+                // Hide the choice buttons and final question
+                choiceButtons.style.display = 'none';
+                finalQuestion.style.display = 'none';
+                
+                // Show the love message
+                loveMessage.style.display = 'block';
+                
+                // Trigger confetti
+                confetti({
+                    particleCount: 150,
+                    spread: 180,
+                    origin: { y: 0.6 }
+                });
+                
+                // More confetti for a few seconds
+                const duration = 3 * 1000;
+                const end = Date.now() + duration;
+                
+                (function frame() {
+                    confetti({
+                        particleCount: 2,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 }
+                    });
+                    
+                    confetti({
+                        particleCount: 2,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 }
+                    });
+                    
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            });
+        });
+    </script>
 </body>
 </html>
