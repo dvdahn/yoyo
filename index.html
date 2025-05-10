@@ -157,15 +157,42 @@
             margin-top: 30px;
             display: none;
         }
+
+        /* Heart styles */
+        .heart {
+            position: fixed;
+            font-size: 20px;
+            color: #1e90ff; /* Blue hearts */
+            opacity: 0;
+            z-index: -1;
+            animation: float-heart 6s linear forwards;
+        }
+
+        @keyframes float-heart {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <button class="play-button" id="playButton">Play Me!</button>
         
-            <!-- Background Music -->
+        <!-- Background Music -->
         <audio id="bg-music" loop>
-        <source src="nostalgia.mp3" type="audio/mpeg" />
+            <source src="nostalgia.mp3" type="audio/mpeg" />
         </audio>
 
         <h1 id="mainHeader">YOYO JIANG</h1>
@@ -176,19 +203,19 @@
         </div>
         <div class="message" id="message2">One month ago it was simple.. exchanging thoughts in the quiet nights </div>
         <div class="message" id="message3">But with each passing day, I've fallen a little deeper as I've gotten to know you more</div>
-        <div class="message" id="message4">I adore your personality - the way you think, the way you laugh, your cute forehead, your eyes and that smile</div>
+        <div class="message" id="message4">I adore your personality - the way you think, the way you laugh, your cute forehead, your eyes and that beautiful smile</div>
         <div class="message" id="message5">I could listen to your voice all day and you're always on my mind. I love everything about you.</div>
         <div class="message" id="message6">And I realized something important...</div>
-        <div class="message" id="message7">I want to take our relationship to the next level...</div>
+        <div class="message" id="message7">I want us to write the next chapter together</div>
         
         <div class="final-question" id="finalQuestion">Will you be my girlfriend?</div>
         
         <div class="choice-buttons" id="choiceButtons">
-            <button class="yes-button" id="yesButton">yes daddy</button>
-            <button class="no-button" id="noButton">oh hellll naww</button>
+            <button class="yes-button" id="yesButton">Yes daddy</button>
+            <button class="no-button" id="noButton">OH HELLLL NAWWW</button>
         </div>
         
-        <div class="final-message" id="loveMessage">wahoo i love youu</div>
+        <div class="final-message" id="loveMessage">wahoo i love you</div>
     </div>
 
     <script>
@@ -211,9 +238,29 @@
             const yesButton = document.getElementById('yesButton');
             const loveMessage = document.getElementById('loveMessage');
             const bgMusic = document.getElementById('bg-music');
-            bgMusic.play(); // Start playing background music
-            bgMusic.volume = 0.5; // Set volume to 50%
             
+            // Function to create floating hearts
+            function createFloatingHearts() {
+                const heartsContainer = document.body;
+                const heartInterval = setInterval(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = '❤';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 3 + 3) + 's'; // Between 3-6s
+                    heartsContainer.appendChild(heart);
+                    
+                    // Remove heart after animation completes
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 6000);
+                }, 300);
+                
+                // Stop creating hearts after 15 seconds
+                setTimeout(() => {
+                    clearInterval(heartInterval);
+                }, 15000);
+            }
             
             let currentMessageIndex = 0;
             
@@ -221,6 +268,26 @@
             playButton.addEventListener('click', function() {
                 playButton.style.display = 'none';
                 mainHeader.style.opacity = '1';
+                
+                // Play background music when button is clicked
+                bgMusic.play().catch(e => {
+                    console.log("Audio couldn't autoplay: ", e);
+                    // Create a play button as fallback if autoplay is blocked
+                    const audioPlayButton = document.createElement('button');
+                    audioPlayButton.textContent = "Play Music";
+                    audioPlayButton.style.position = "fixed";
+                    audioPlayButton.style.top = "10px";
+                    audioPlayButton.style.right = "10px";
+                    audioPlayButton.style.zIndex = "1000";
+                    audioPlayButton.onclick = () => {
+                        bgMusic.play();
+                        audioPlayButton.remove();
+                    };
+                    document.body.appendChild(audioPlayButton);
+                });
+                
+                // Set volume to 50%
+                bgMusic.volume = 0.5;
                 
                 // Show the first message after a short delay
                 setTimeout(showNextMessage, 1000);
@@ -330,6 +397,9 @@
                     
                     if (Date.now() < end) {
                         requestAnimationFrame(frame);
+                    } else {
+                        // Start floating hearts after confetti ends
+                        createFloatingHearts();
                     }
                 }());
             });
