@@ -1,0 +1,54 @@
+body {
+    font-family: 'Comics Sans MS', cursive;
+    background: #fce4ec; //blue
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    font-size: 2em;
+    color: #d81b60; //pink
+    margin-bottom: 40px;
+}
+
+button {
+    padding: 15px 25px;
+    font-size: 1.2em;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#yesBtn {
+    background-color: #81c784; //green
+    color: white;
+}
+
+#noBtn {
+    background-color: #e57373; //red
+    color: white;
+    position: relative;
+}
+
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: hsl(0, 100%, 70%);
+  animation: fall linear;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
