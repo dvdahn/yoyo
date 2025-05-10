@@ -50,3 +50,18 @@ function spawnHeart() {
 }
 
 setInterval(spawnHeart, 300); // Every 300ms
+
+<script>
+  const audio = document.getElementById("bg-music");
+  audio.volume = 0; // start silent
+
+  let volume = 0;
+  const fadeIn = setInterval(() => {
+    if (volume < 0.5) { // fade up to 50% volume
+      volume += 0.01;
+      audio.volume = volume;
+    } else {
+      clearInterval(fadeIn);
+    }
+  }, 200); // increase every 200ms
+</script>
