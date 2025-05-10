@@ -12,7 +12,7 @@ noBtn.addEventListener("mouseover", () => {
 
 // Alert and spawn confetti on "Yes" button click
 yesBtn.addEventListener("click", () => {
-    alert("Yay! You love me too!");
+    alert("wahoo! I love you muah");
     createConfetti();
     spawnHearts();
 });
@@ -86,13 +86,3 @@ const fadeIn = setInterval(() => {
         clearInterval(fadeIn); // Stop when it reaches 50%
     }
 }, 200); // Increase every 200ms
-
-const audio = document.getElementById("bg-music");
-
-audio.addEventListener("canplaythrough", () => {
-    console.log("Audio is ready to play!");
-});
-
-audio.addEventListener("error", (e) => {
-    console.error("Error loading audio:", e);
-});
