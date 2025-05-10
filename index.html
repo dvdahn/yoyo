@@ -45,13 +45,11 @@
             display: none;
             position: relative;
         }
-
         .thought-bubble {
-            content: '';
             position: absolute;
-            top: 100;
-            right: 100px;
-            transform: translateY(-50%);
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
             background-color: #fff;
             padding: 10px 15px;
             border-radius: 20px;
@@ -60,7 +58,6 @@
             opacity: 0;
             transition: opacity 0.5s ease;
             display: none;
-            white-space: nowrap;
         }
 
         .thought-bubble:after {
