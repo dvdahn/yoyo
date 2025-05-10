@@ -33,6 +33,12 @@
             transition: opacity 1s ease;
         }
 
+        .message-container {
+            position: relative;
+            height: 200px;
+            margin: 2rem 0;
+        }
+
         .message {
             font-size: 1.5rem;
             margin: 1.5rem 0;
@@ -315,43 +321,60 @@
                     
                     // Add click event to show next message
                     message.addEventListener('click', function handler() {
+                        message.removeEventListener('click', handler);
                         // Hide the "Click me" bubble if it's the first message
                         if (currentMessageIndex === 0) {
                             clickMe.style.opacity = '0';
 
                         //Fade out the first message
                             message.style.opacity = '0';
-                            setTimeout(() => {
-                                message.style.display = 'none';
-                            }, 2000);
-                        }
                         
                         currentMessageIndex++;
                         message.removeEventListener('click', handler);
                         
                         // If we've shown all messages, show the final question
-                        if (currentMessageIndex >= messages.length) {
+                        if (currentMessageIndex < messages.length) {
                             // Hide all previous messages
-                            messages.forEach(msg => {
-                                msg.style.display = 'none';
-                            });
+                            const nextMessage = messages[currentMessageIndex];
+                            nextMessage.style.display = 'block';
                             
-                            // Show the final question
-                            finalQuestion.style.display = 'block';
                             setTimeout(() => {
-                                finalQuestion.style.opacity = '1';
+                                nextMessage.style.opacity = '1';
+                            }, 1000);
+                        }
+                         } else {
+                            // For messages after the first one
+                            currentMessageIndex++;
+                            
+                            // If we've shown all messages, show the final question
+                            if (currentMessageIndex >= messages.length) {
+                                // Fade out the current message
+                                message.style.opacity = '0';
                                 
-                                // Show the choice buttons
+                                // Show the final question after the message fades out
                                 setTimeout(() => {
-                                    choiceButtons.style.display = 'flex';
+                                    // Hide all messages
+                                    messages.forEach(msg => {
+                                        msg.style.display = 'none';
+                                    });
+                                    
+                                    // Show the final question
+                                    finalQuestion.style.display = 'block';
+                                    setTimeout(() => {
+                                        finalQuestion.style.opacity = '1';
+                                        
+                                        // Show the choice buttons
+                                        setTimeout(() => {
+                                            choiceButtons.style.display = 'flex';
+                                        }, 1000);
+                                    }, 100);
                                 }, 1000);
-                            }, 100);
-                        } else {
-                            showNextMessage();
+                            } else {
+                                showNextMessage();
+                            }
                         }
                     });
                 }
-            }
             
             // Make the No button move away when hovered
             noButton.addEventListener('mouseover', function() {
