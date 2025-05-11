@@ -181,10 +181,10 @@
             }
             95% {
                 opacity: 1;
-                transform: translateY(2px) scale(1.5);
+                transform: translateY(20px) scale(1.5);
             }
             100% {
-                transform: translateY(-5px) scale(1.5);
+                transform: translateY(20px) scale(1.5);
                 opacity: 0;
             }
         }
@@ -245,12 +245,12 @@
             
             // Heart animation settings - you can adjust these values
             const heartSettings = {
-                spawnInterval: 100,       // How often to create hearts (in ms) - lower = more hearts
+                spawnInterval: 200,       // How often to create hearts (in ms) - lower = more hearts
                 minSpeed: 3,              // Minimum animation duration (in seconds)
                 maxSpeed: 7,              // Maximum animation duration (in seconds)
-                minSize: 20,              // Minimum heart size (in pixels)
-                maxSize: 50,              // Maximum heart size (in pixels)
-                duration: 600000,          // How long to keep creating hearts (in ms)
+                minSize: 10,              // Minimum heart size (in pixels)
+                maxSize: 40,              // Maximum heart size (in pixels)
+                duration: 999999,          // How long to keep creating hearts (in ms)
                 colors: ['#1e90ff', '#4169e1', '#0000ff', '#00bfff', '#87cefa'] // Different blue shades
             };
             
