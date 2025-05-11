@@ -170,7 +170,7 @@
             animation: float-heart 6s linear forwards;
         }
 
-        /* You can adjust the animation duration in the JavaScript code */
+        /* Updated keyframes to make hearts go all the way to the top */
         @keyframes float-heart {
             0% {
                 transform: translateY(100vh) scale(0.5);
@@ -179,12 +179,12 @@
             10% {
                 opacity: 1;
             }
-            95% {
+            90% {
                 opacity: 1;
-                transform: translateY(100px) scale(1.5);
+                transform: translateY(10px) scale(1.5);
             }
             100% {
-                transform: translateY(100px) scale(1.5);
+                transform: translateY(-20px) scale(1.5);
                 opacity: 0;
             }
         }
@@ -243,14 +243,14 @@
             const loveMessage = document.getElementById('loveMessage');
             const bgMusic = document.getElementById('bg-music');
             
-            // Heart animation settings - you can adjust these values
+            // Heart animation settings - keeping your customized values
             const heartSettings = {
                 spawnInterval: 300,       // How often to create hearts (in ms) - lower = more hearts
                 minSpeed: 3,              // Minimum animation duration (in seconds)
                 maxSpeed: 7,              // Maximum animation duration (in seconds)
                 minSize: 10,              // Minimum heart size (in pixels)
                 maxSize: 40,              // Maximum heart size (in pixels)
-                duration: 999999,          // How long to keep creating hearts (in ms)
+                duration: 999999,         // How long to keep creating hearts (in ms)
                 colors: ['#1e90ff', '#4169e1', '#0000ff', '#00bfff', '#87cefa'] // Different blue shades
             };
             
