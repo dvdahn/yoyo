@@ -179,11 +179,12 @@
             10% {
                 opacity: 1;
             }
-            90% {
+            95% {
                 opacity: 1;
+                transform: translateY(2px) scale(1.5);
             }
             100% {
-                transform: translateY(-100px) scale(1.5);
+                transform: translateY(-5px) scale(1.5);
                 opacity: 0;
             }
         }
@@ -218,7 +219,7 @@
             <button class="no-button" id="noButton">OH HELLLL NAWWW</button>
         </div>
         
-        <div class="final-message" id="loveMessage">wahoo i love you</div>
+        <div class="final-message" id="loveMessage">WAHOO I LOVE YOU</div>
     </div>
 
     <script>
@@ -248,8 +249,8 @@
                 minSpeed: 3,              // Minimum animation duration (in seconds)
                 maxSpeed: 7,              // Maximum animation duration (in seconds)
                 minSize: 20,              // Minimum heart size (in pixels)
-                maxSize: 80,              // Maximum heart size (in pixels)
-                duration: 60000,          // How long to keep creating hearts (in ms)
+                maxSize: 50,              // Maximum heart size (in pixels)
+                duration: 600000,          // How long to keep creating hearts (in ms)
                 colors: ['#1e90ff', '#4169e1', '#0000ff', '#00bfff', '#87cefa'] // Different blue shades
             };
             
@@ -317,8 +318,8 @@
                     document.body.appendChild(audioPlayButton);
                 });
                 
-                // Set volume to 50%
-                bgMusic.volume = 0.5;
+                // Set volume to 30%
+                bgMusic.volume = 0.3;
                 
                 // Show the first message after a short delay
                 setTimeout(showNextMessage, 1000);
