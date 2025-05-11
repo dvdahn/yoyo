@@ -34,7 +34,7 @@
         }
 
         .message {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin: 1.5rem 0;
             padding: 1rem;
             background-color: white;
@@ -163,13 +163,14 @@
         /* Heart styles */
         .heart {
             position: fixed;
-            font-size: 20px;
+            font-size: 25px; /* Increased heart size */
             color: #1e90ff; /* Blue hearts */
             opacity: 0;
             z-index: -1;
             animation: float-heart 6s linear forwards;
         }
 
+        /* You can adjust the animation duration in the JavaScript code */
         @keyframes float-heart {
             0% {
                 transform: translateY(100vh) scale(0.5);
@@ -217,7 +218,7 @@
             <button class="no-button" id="noButton">OH HELLLL NAWWW</button>
         </div>
         
-        <div class="final-message" id="loveMessage">WAHOO I LOVE YOU</div>
+        <div class="final-message" id="loveMessage">wahoo i love you</div>
     </div>
 
     <script>
@@ -241,27 +242,55 @@
             const loveMessage = document.getElementById('loveMessage');
             const bgMusic = document.getElementById('bg-music');
             
+            // Heart animation settings - you can adjust these values
+            const heartSettings = {
+                spawnInterval: 100,       // How often to create hearts (in ms) - lower = more hearts
+                minSpeed: 3,              // Minimum animation duration (in seconds)
+                maxSpeed: 7,              // Maximum animation duration (in seconds)
+                minSize: 20,              // Minimum heart size (in pixels)
+                maxSize: 80,              // Maximum heart size (in pixels)
+                duration: 60000,          // How long to keep creating hearts (in ms)
+                colors: ['#1e90ff', '#4169e1', '#0000ff', '#00bfff', '#87cefa'] // Different blue shades
+            };
+            
             // Function to create floating hearts
             function createFloatingHearts() {
                 const heartsContainer = document.body;
                 const heartInterval = setInterval(() => {
-                    const heart = document.createElement('div');
-                    heart.classList.add('heart');
-                    heart.innerHTML = '❤';
-                    heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.animationDuration = (Math.random() * 3 + 3) + 's'; // Between 3-6s
-                    heartsContainer.appendChild(heart);
-                    
-                    // Remove heart after animation completes
-                    setTimeout(() => {
-                        heart.remove();
-                    }, 6000);
-                }, 300);
+                    // Create multiple hearts at once for a denser effect
+                    for (let i = 0; i < 3; i++) {
+                        const heart = document.createElement('div');
+                        heart.classList.add('heart');
+                        heart.innerHTML = '❤';
+                        
+                        // Random position
+                        heart.style.left = Math.random() * 100 + 'vw';
+                        
+                        // Random speed
+                        const speed = Math.random() * (heartSettings.maxSpeed - heartSettings.minSpeed) + heartSettings.minSpeed;
+                        heart.style.animationDuration = speed + 's';
+                        
+                        // Random size
+                        const size = Math.random() * (heartSettings.maxSize - heartSettings.minSize) + heartSettings.minSize;
+                        heart.style.fontSize = size + 'px';
+                        
+                        // Random blue shade
+                        const colorIndex = Math.floor(Math.random() * heartSettings.colors.length);
+                        heart.style.color = heartSettings.colors[colorIndex];
+                        
+                        heartsContainer.appendChild(heart);
+                        
+                        // Remove heart after animation completes
+                        setTimeout(() => {
+                            heart.remove();
+                        }, speed * 1000); // Convert seconds to milliseconds
+                    }
+                }, heartSettings.spawnInterval);
                 
-                // Stop creating hearts after 15 seconds
+                // Stop creating hearts after the specified duration
                 setTimeout(() => {
                     clearInterval(heartInterval);
-                }, 15000);
+                }, heartSettings.duration);
             }
             
             let currentMessageIndex = 0;
@@ -297,70 +326,70 @@
             
             // Function to show messages in sequence
             function showNextMessage() {
-    if (currentMessageIndex < messages.length) {
-        const message = messages[currentMessageIndex];
-        message.style.display = 'block';
-        
-        // Fade in the message
-        setTimeout(() => {
-            message.style.opacity = '1';
-            
-            // Show the "Click me" bubble for the first message
-            if (currentMessageIndex === 0) {
-                setTimeout(() => {
-                    clickMe.style.display = 'block';
-                    clickMe.style.opacity = '1';
-                }, 1000);
-            }
-        }, 100);
-        
-        // Add click event to show next message
-        message.addEventListener('click', function handler() {
-            // Remove the click event listener to prevent multiple triggers
-            message.removeEventListener('click', handler);
-            
-            // Hide the "Click me" bubble if it's the first message
-            if (currentMessageIndex === 0) {
-                clickMe.style.opacity = '0';
-                
-                // Fade out the first message with a slow fade
-                message.style.opacity = '0';
-                setTimeout(() => {
-                    message.style.display = 'none';
+                if (currentMessageIndex < messages.length) {
+                    const message = messages[currentMessageIndex];
+                    message.style.display = 'block';
                     
-                    // Increment the index and show the next message
-                    currentMessageIndex++;
-                    showNextMessage();
-                }, 2000); // Increased from 500ms to 2000ms (2 seconds) to match the CSS transition
-            } else {
-                // For messages after the first one, just advance to the next
-                currentMessageIndex++;
-                
-                // If we've shown all messages, show the final question
-                if (currentMessageIndex >= messages.length) {
-                    // Hide all previous messages
-                    messages.forEach(msg => {
-                        msg.style.display = 'none';
-                    });
-                    
-                    // Show the final question
-                    finalQuestion.style.display = 'block';
+                    // Fade in the message
                     setTimeout(() => {
-                        finalQuestion.style.opacity = '1';
+                        message.style.opacity = '1';
                         
-                        // Show the choice buttons
-                        setTimeout(() => {
-                            choiceButtons.style.display = 'flex';
-                        }, 1000);
+                        // Show the "Click me" bubble for the first message
+                        if (currentMessageIndex === 0) {
+                            setTimeout(() => {
+                                clickMe.style.display = 'block';
+                                clickMe.style.opacity = '1';
+                            }, 1000);
+                        }
                     }, 100);
-                } else {
-                    // Show the next message
-                    showNextMessage();
+                    
+                    // Add click event to show next message
+                    message.addEventListener('click', function handler() {
+                        // Remove the click event listener to prevent multiple triggers
+                        message.removeEventListener('click', handler);
+                        
+                        // Hide the "Click me" bubble if it's the first message
+                        if (currentMessageIndex === 0) {
+                            clickMe.style.opacity = '0';
+                            
+                            // Fade out the first message with a slow fade
+                            message.style.opacity = '0';
+                            setTimeout(() => {
+                                message.style.display = 'none';
+                                
+                                // Increment the index and show the next message
+                                currentMessageIndex++;
+                                showNextMessage();
+                            }, 2000); // Increased from 500ms to 2000ms (2 seconds) to match the CSS transition
+                        } else {
+                            // For messages after the first one, just advance to the next
+                            currentMessageIndex++;
+                            
+                            // If we've shown all messages, show the final question
+                            if (currentMessageIndex >= messages.length) {
+                                // Hide all previous messages
+                                messages.forEach(msg => {
+                                    msg.style.display = 'none';
+                                });
+                                
+                                // Show the final question
+                                finalQuestion.style.display = 'block';
+                                setTimeout(() => {
+                                    finalQuestion.style.opacity = '1';
+                                    
+                                    // Show the choice buttons
+                                    setTimeout(() => {
+                                        choiceButtons.style.display = 'flex';
+                                    }, 1000);
+                                }, 100);
+                            } else {
+                                // Show the next message
+                                showNextMessage();
+                            }
+                        }
+                    });
                 }
             }
-        });
-    }
-}
             
             // Make the No button move away when hovered
             noButton.addEventListener('mouseover', function() {
