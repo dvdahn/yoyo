@@ -33,14 +33,8 @@
             transition: opacity 1s ease;
         }
 
-        .message-container {
-            position: relative;
-            height: 200px; /* Fixed height to accommodate messages */
-            margin: 2rem 0;
-        }
-
         .message {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin: 1.5rem 0;
             padding: 1rem;
             background-color: white;
@@ -49,7 +43,8 @@
             animation: float 3s ease-in-out infinite;
             opacity: 0;
             display: none;
-            position: absolute;
+            position: relative;
+            /* Added longer transition for opacity - this will affect the first message fade-out */
             transition: opacity 2s ease;
         }
         .thought-bubble {
@@ -81,7 +76,8 @@
         }
 
         .final-question {
-             font-size: 2.5rem;
+            font-size: 2.5rem;
+            margin: 2rem 0;
             padding: 1.5rem;
             background-color: white;
             border-radius: 20px;
@@ -89,12 +85,8 @@
             animation: float 3s ease-in-out infinite;
             opacity: 0;
             display: none;
-            font-family: 'Pacifico';
-            color: #ff95ff;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            font-family: 'Pacifico', cursive;
+            color: #ff1493;
         }
 
         @keyframes float {
@@ -225,7 +217,7 @@
             <button class="no-button" id="noButton">OH HELLLL NAWWW</button>
         </div>
         
-        <div class="final-message" id="loveMessage">WAHOO I LOVE YOU</div>
+        <div class="final-message" id="loveMessage">wahoo i love you</div>
     </div>
 
     <script>
@@ -269,7 +261,7 @@
                 // Stop creating hearts after 15 seconds
                 setTimeout(() => {
                     clearInterval(heartInterval);
-                }, 600000);
+                }, 15000);
             }
             
             let currentMessageIndex = 0;
@@ -297,7 +289,7 @@
                 });
                 
                 // Set volume to 50%
-                bgMusic.volume = 0.3;
+                bgMusic.volume = 0.5;
                 
                 // Show the first message after a short delay
                 setTimeout(showNextMessage, 1000);
@@ -305,81 +297,71 @@
             
             // Function to show messages in sequence
             function showNextMessage() {
-                if (currentMessageIndex < messages.length) {
-                    const message = messages[currentMessageIndex];
-                    message.style.display = 'block';
+    if (currentMessageIndex < messages.length) {
+        const message = messages[currentMessageIndex];
+        message.style.display = 'block';
+        
+        // Fade in the message
+        setTimeout(() => {
+            message.style.opacity = '1';
+            
+            // Show the "Click me" bubble for the first message
+            if (currentMessageIndex === 0) {
+                setTimeout(() => {
+                    clickMe.style.display = 'block';
+                    clickMe.style.opacity = '1';
+                }, 1000);
+            }
+        }, 100);
+        
+        // Add click event to show next message
+        message.addEventListener('click', function handler() {
+            // Remove the click event listener to prevent multiple triggers
+            message.removeEventListener('click', handler);
+            
+            // Hide the "Click me" bubble if it's the first message
+            if (currentMessageIndex === 0) {
+                clickMe.style.opacity = '0';
+                
+                // Fade out the first message with a slow fade
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    message.style.display = 'none';
                     
-                    // Fade in the message
-                    setTimeout(() => {
-                        message.style.opacity = '1';
-                        
-                        // Show the "Click me" bubble for the first message
-                        if (currentMessageIndex === 0) {
-                            setTimeout(() => {
-                                clickMe.style.display = 'block';
-                                clickMe.style.opacity = '1';
-                            }, 1000);
-                        }
-                    }, 100);
-                    
-                    // Add click event to show next message
-                    message.addEventListener('click', function handler() {
-                        //message.removeEventListener('click', handler);
-                        
-                        // Hide the "Click me" bubble if it's the first message
-                        if (currentMessageIndex === 0) {
-                            clickMe.style.opacity = '0';
-                            
-                            // Start fading out the first message
-                            message.style.opacity = '0';
-                            
-                            // Prepare the next message while the first is fading
-                            currentMessageIndex++;
-                            
-                            if (currentMessageIndex < messages.length) {
-                                // Set up the next message to fade in
-                                const nextMessage = messages[currentMessageIndex];
-                                nextMessage.style.display = 'block';
-                                
-                                // Start fading in the next message after a short delay
-                                setTimeout(() => {
-                                    nextMessage.style.opacity = '1';
-                                }, 1000); // Start fade-in halfway through the fade-out
-                            }
-                        } else {
-                            // For messages after the first one
-                            currentMessageIndex++;
-                            
-                            // If we've shown all messages, show the final question
-                            if (currentMessageIndex >= messages.length) {
-                                // Fade out the current message
-                                message.style.opacity = '0';
-                                
-                                // Show the final question after the message fades out
-                                setTimeout(() => {
-                                    // Hide all messages
-                                    messages.forEach(msg => {
-                                        msg.style.display = 'none';
-                                    });
-                                    
-                                    // Show the final question
-                                    finalQuestion.style.display = 'block';
-                                    setTimeout(() => {
-                                        finalQuestion.style.opacity = '1';
-                                        
-                                        // Show the choice buttons
-                                        setTimeout(() => {
-                                            choiceButtons.style.display = 'flex';
-                                        }, 1000);
-                                    }, 100);
-                                }, 1000);
-                            } else {
-                                showNextMessage();
-                            }
-                        }
+                    // Increment the index and show the next message
+                    currentMessageIndex++;
+                    showNextMessage();
+                }, 2000); // Increased from 500ms to 2000ms (2 seconds) to match the CSS transition
+            } else {
+                // For messages after the first one, just advance to the next
+                currentMessageIndex++;
+                
+                // If we've shown all messages, show the final question
+                if (currentMessageIndex >= messages.length) {
+                    // Hide all previous messages
+                    messages.forEach(msg => {
+                        msg.style.display = 'none';
                     });
+                    
+                    // Show the final question
+                    finalQuestion.style.display = 'block';
+                    setTimeout(() => {
+                        finalQuestion.style.opacity = '1';
+                        
+                        // Show the choice buttons
+                        setTimeout(() => {
+                            choiceButtons.style.display = 'flex';
+                        }, 1000);
+                    }, 100);
+                } else {
+                    // Show the next message
+                    showNextMessage();
                 }
             }
+        });
+    }
+}
+            
             // Make the No button move away when hovered
             noButton.addEventListener('mouseover', function() {
                 // Calculate a new position within the viewport
